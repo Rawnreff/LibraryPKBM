@@ -53,6 +53,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="book/[id]"
         options={{
+          headerShown: false, 
           href: null,
         }}
       />
