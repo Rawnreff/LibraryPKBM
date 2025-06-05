@@ -26,6 +26,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
+          headerShown: false,
           title: 'Beranda',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" color={color} size={size} />
@@ -35,6 +36,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
+          headerShown: false,
           title: 'Cari',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="search-outline" color={color} size={size} />
@@ -53,7 +55,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="book/[id]"
         options={{
-          headerShown: false, 
+          headerShown: false,
           href: null,
         }}
       />
