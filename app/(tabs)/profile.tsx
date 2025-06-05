@@ -9,7 +9,7 @@ export default function ProfileScreen() {
       <View style={styles.content}>
         <View style={styles.profileHeader}>
           <Image
-            source={{ uri: 'https://ui-avatars.com/api/?name=Siswa+PKBM&background=2E8B57&color=fff' }}
+            source={{ uri: 'https://fisika.uad.ac.id/wp-content/uploads/blank-profile-picture-973460_1280.png' }}
             style={styles.avatar}
           />
           <Text style={styles.name}>Siswa PKBM</Text>
