@@ -1,75 +1,93 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Ionicons } from '@expo/vector-icons';
+import { Link } from 'expo-router';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { books } from '../../assets/data/books';
+import { theme } from '../../constants/Theme';
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <Text style={styles.header}>📚 Perpustakaan PKBM</Text>
+      <FlatList
+        data={books}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContent}
+        renderItem={({ item }) => (
+          <Link href={`/book/${item.id}`} asChild>
+            <TouchableOpacity style={styles.card}>
+              <Image source={{ uri: item.cover }} style={styles.cover} />
+              <View style={styles.info}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.author}>{item.author}</Text>
+                <View style={styles.meta}>
+                  <Ionicons name="calendar-outline" size={14} color={theme.colors.iconDefault} />
+                  <Text style={styles.metaText}>{item.year}</Text>
+                  <Ionicons name="book-outline" size={14} color={theme.colors.iconDefault} style={styles.metaIcon} />
+                  <Text style={styles.metaText} numberOfLines={1}>{item.publisher}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </Link>
+        )}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    padding: theme.spacing.medium,
+  },
+  header: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: theme.spacing.medium,
+    color: theme.colors.textPrimary,
+  },
+  listContent: {
+    paddingBottom: theme.spacing.large,
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: theme.borderRadius.medium,
+    marginBottom: theme.spacing.medium,
+    overflow: 'hidden',
+    ...theme.shadow.card,
+  },
+  cover: {
+    width: 90,
+    height: 120,
+    backgroundColor: theme.colors.border,
+  },
+  info: {
+    flex: 1,
+    padding: theme.spacing.medium,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: theme.colors.textPrimary,
+  },
+  author: {
+    fontSize: 14,
+    color: theme.colors.textSecondary,
+    marginVertical: 4,
+  },
+  meta: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  metaIcon: {
+    marginLeft: theme.spacing.large,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  metaText: {
+    fontSize: 12,
+    color: theme.colors.textTertiary,
+    marginLeft: 4,
   },
 });
