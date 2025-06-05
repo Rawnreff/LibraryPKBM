@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { books } from '../../../assets/data/books';
 import { theme } from '../../../constants/Theme';
 
@@ -11,7 +12,7 @@ export default function BookDetail() {
 
   if (!book) {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
             <Ionicons name="arrow-back" size={24} color={theme.colors.textPrimary} />
@@ -21,12 +22,12 @@ export default function BookDetail() {
           <Ionicons name="book-outline" size={40} color={theme.colors.placeholder} />
           <Text style={styles.notFound}>Buku tidak ditemukan</Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {/* Header with back button */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
@@ -34,7 +35,11 @@ export default function BookDetail() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.scrollContent}>
+      <ScrollView 
+        style={styles.scrollContainer} 
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.coverContainer}>
           <Image source={{ uri: book.cover }} style={styles.cover} />
         </View>
@@ -53,7 +58,7 @@ export default function BookDetail() {
           <Text style={styles.description}>{book.description}</Text>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -63,8 +68,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   header: {
-    padding: theme.spacing.large,
-    paddingTop: theme.spacing.xLarge,
+    paddingHorizontal: theme.spacing.large,
+    paddingTop: theme.spacing.medium,
     paddingBottom: theme.spacing.medium,
   },
   backButton: {
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: theme.spacing.large,
+    paddingBottom: theme.spacing.xLarge, // Extra padding for bottom safe area
   },
   center: {
     flex: 1,

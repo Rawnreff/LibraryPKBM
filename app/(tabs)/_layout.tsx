@@ -15,7 +15,7 @@ export default function TabLayout() {
           backgroundColor: '#fff',
           borderTopWidth: 0.5,
           borderTopColor: '#ccc',
-          height: 60,
+          height: 75,
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -46,6 +46,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
+          headerShown: false, 
           title: 'Profil',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" color={color} size={size} />

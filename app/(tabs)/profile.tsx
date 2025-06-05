@@ -1,67 +1,70 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '../../constants/Theme';
 
 export default function ProfileScreen() {
   return (
-    <View style={styles.container}>
-      <View style={styles.profileHeader}>
-        <Image
-          source={{ uri: 'https://ui-avatars.com/api/?name=Siswa+PKBM&background=2E8B57&color=fff' }}
-          style={styles.avatar}
-        />
-        <Text style={styles.name}>Siswa PKBM</Text>
-        <Text style={styles.email}>siswa@pkbm.sch.id</Text>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+      <View style={styles.content}>
+        <View style={styles.profileHeader}>
+          <Image
+            source={{ uri: 'https://ui-avatars.com/api/?name=Siswa+PKBM&background=2E8B57&color=fff' }}
+            style={styles.avatar}
+          />
+          <Text style={styles.name}>Siswa PKBM</Text>
+          <Text style={styles.email}>siswa@pkbm.sch.id</Text>
+        </View>
+
+        <View style={styles.section}>
+          <TouchableOpacity style={styles.option}>
+            <Ionicons name="bookmark-outline" size={22} color={theme.colors.iconActive} />
+            <Text style={styles.optionText}>Buku Favorit</Text>
+            <Ionicons 
+              name="chevron-forward-outline" 
+              size={20} 
+              color={theme.colors.iconDefault} 
+              style={styles.optionIcon}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.option}>
+            <Ionicons name="time-outline" size={22} color={theme.colors.iconActive} />
+            <Text style={styles.optionText}>Riwayat Peminjaman</Text>
+            <Ionicons 
+              name="chevron-forward-outline" 
+              size={20} 
+              color={theme.colors.iconDefault} 
+              style={styles.optionIcon}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.option}>
+            <Ionicons name="settings-outline" size={22} color={theme.colors.iconActive} />
+            <Text style={styles.optionText}>Pengaturan</Text>
+            <Ionicons 
+              name="chevron-forward-outline" 
+              size={20} 
+              color={theme.colors.iconDefault} 
+              style={styles.optionIcon}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.divider} />
+
+          <TouchableOpacity style={styles.option}>
+            <Ionicons name="log-out-outline" size={22} color="#e74c3c" />
+            <Text style={[styles.optionText, { color: '#e74c3c' }]}>Keluar</Text>
+            <Ionicons 
+              name="chevron-forward-outline" 
+              size={20} 
+              color="#e74c3c" 
+              style={styles.optionIcon}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <View style={styles.section}>
-        <TouchableOpacity style={styles.option}>
-          <Ionicons name="bookmark-outline" size={22} color={theme.colors.iconActive} />
-          <Text style={styles.optionText}>Buku Favorit</Text>
-          <Ionicons 
-            name="chevron-forward-outline" 
-            size={20} 
-            color={theme.colors.iconDefault} 
-            style={styles.optionIcon}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.option}>
-          <Ionicons name="time-outline" size={22} color={theme.colors.iconActive} />
-          <Text style={styles.optionText}>Riwayat Peminjaman</Text>
-          <Ionicons 
-            name="chevron-forward-outline" 
-            size={20} 
-            color={theme.colors.iconDefault} 
-            style={styles.optionIcon}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.option}>
-          <Ionicons name="settings-outline" size={22} color={theme.colors.iconActive} />
-          <Text style={styles.optionText}>Pengaturan</Text>
-          <Ionicons 
-            name="chevron-forward-outline" 
-            size={20} 
-            color={theme.colors.iconDefault} 
-            style={styles.optionIcon}
-          />
-        </TouchableOpacity>
-
-        <View style={styles.divider} />
-
-        <TouchableOpacity style={styles.option}>
-          <Ionicons name="log-out-outline" size={22} color="#e74c3c" />
-          <Text style={[styles.optionText, { color: '#e74c3c' }]}>Keluar</Text>
-          <Ionicons 
-            name="chevron-forward-outline" 
-            size={20} 
-            color="#e74c3c" 
-            style={styles.optionIcon}
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -69,6 +72,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  content: {
+    flex: 1,
     padding: theme.spacing.large,
   },
   profileHeader: {

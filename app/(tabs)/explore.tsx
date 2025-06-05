@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { books } from '../../assets/data/books';
 import { theme } from '../../constants/Theme';
 
@@ -15,55 +16,57 @@ export default function ExploreScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>📚 Eksplorasi Buku</Text>
-      
-      <View style={styles.searchContainer}>
-        <Ionicons name="search-outline" size={20} color={theme.colors.placeholder} />
-        <TextInput
-          placeholder="Cari buku atau penulis..."
-          style={styles.searchInput}
-          value={search}
-          onChangeText={setSearch}
-          placeholderTextColor={theme.colors.placeholder}
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+      <View style={styles.content}>
+        <Text style={styles.title}>📚 Eksplorasi Buku</Text>
+        
+        <View style={styles.searchContainer}>
+          <Ionicons name="search-outline" size={20} color={theme.colors.placeholder} />
+          <TextInput
+            placeholder="Cari buku atau penulis..."
+            style={styles.searchInput}
+            value={search}
+            onChangeText={setSearch}
+            placeholderTextColor={theme.colors.placeholder}
+          />
+        </View>
+
+        <FlatList
+          data={filteredBooks}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContent}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Ionicons name="book-outline" size={40} color={theme.colors.placeholder} />
+              <Text style={styles.emptyText}>Buku tidak ditemukan</Text>
+            </View>
+          }
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => router.push(`/book/${item.id}`)}
+            >
+              <Image 
+                source={{ uri: item.cover }} 
+                style={styles.cover} 
+                resizeMode="cover"
+              />
+              <View style={styles.info}>
+                <Text style={styles.bookTitle}>{item.title}</Text>
+                <Text style={styles.author}>{item.author}</Text>
+                <View style={styles.meta}>
+                  <Ionicons name="calendar-outline" size={14} color={theme.colors.iconDefault} />
+                  <Text style={styles.metaText}>{item.year}</Text>
+                  <Ionicons name="book-outline" size={14} color={theme.colors.iconDefault} style={styles.metaIcon} />
+                  <Text style={styles.metaText} numberOfLines={1}>{item.publisher}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+          showsVerticalScrollIndicator={false}
         />
       </View>
-
-      <FlatList
-        data={filteredBooks}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Ionicons name="book-outline" size={40} color={theme.colors.placeholder} />
-            <Text style={styles.emptyText}>Buku tidak ditemukan</Text>
-          </View>
-        }
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => router.push(`/book/${item.id}`)}
-          >
-            <Image 
-              source={{ uri: item.cover }} 
-              style={styles.cover} 
-              resizeMode="cover"
-            />
-            <View style={styles.info}>
-              <Text style={styles.bookTitle}>{item.title}</Text>
-              <Text style={styles.author}>{item.author}</Text>
-              <View style={styles.meta}>
-                <Ionicons name="calendar-outline" size={14} color={theme.colors.iconDefault} />
-                <Text style={styles.metaText}>{item.year}</Text>
-                <Ionicons name="book-outline" size={14} color={theme.colors.iconDefault} style={styles.metaIcon} />
-                <Text style={styles.metaText} numberOfLines={1}>{item.publisher}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -71,11 +74,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  content: {
+    flex: 1,
     paddingHorizontal: theme.spacing.medium,
     paddingTop: theme.spacing.medium,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
     marginBottom: theme.spacing.medium,
     color: theme.colors.textPrimary,
